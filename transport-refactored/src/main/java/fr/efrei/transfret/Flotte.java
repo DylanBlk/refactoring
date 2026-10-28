@@ -17,6 +17,7 @@ public class Flotte {
         flotte.ajouter(new Train("TR-0001", 600000));
         flotte.ajouter(new Bateau("CMA-CGM-01", 20000000, true));
         flotte.ajouter(new Avion("F-GTXA", 100000));
+        flotte.ajouter(new Peniche("PEN-0001", 2_500_000));
         return flotte;
     }
 

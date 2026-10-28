@@ -16,12 +16,18 @@ public class Application {
     private final ServiceClient serviceClient;
     private final ServiceExpedition serviceExpedition;
 
+    /** L'application avec les tarifs historiques. */
     public Application() {
+        this(CalculateurPrix.tarifsHistoriques());
+    }
+
+    /** L'application avec le calculateur de prix choisi (par exemple avec le supplément hors gabarit). */
+    public Application(CalculateurPrix calculateurPrix) {
         Flotte flotte = Flotte.initiale();
         Notificateur notificateur = new Notificateur(List.of(email, sms));
         serviceClient = new ServiceClient(new ValidateurClient(), clients, email);
         serviceExpedition = new ServiceExpedition(expeditions, new ValidateurExpedition(), TableDistances.standard(),
-                new AffectationVehicule(flotte), new CalculateurPrix(), new EstimateurDelai(),
+                new AffectationVehicule(flotte), calculateurPrix, new EstimateurDelai(),
                 notificateur, new GenerateurIdentifiant());
     }
 

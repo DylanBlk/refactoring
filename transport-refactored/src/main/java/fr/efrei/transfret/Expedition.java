@@ -1,14 +1,15 @@
 package fr.efrei.transfret;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+/** Une expédition : ce qui est transporté, d'où, vers où, comment, et où elle en est. */
 public class Expedition {
 
     private String id;
     private Client client;
-    private List<Colis> colis = new ArrayList<Colis>();
+    private List<Colis> colis = new ArrayList<>();
     private String villeDepart;
     private String villeArrivee;
     private int distance;
@@ -22,31 +23,6 @@ public class Expedition {
     private double prixHT;
     private double prixTTC;
     private double fraisAnnulation;
-    private List<String> historique = new ArrayList<String>();
-
-    public double getPoidsTotal() {
-        double total = 0;
-        for (int i = 0; i < colis.size(); i++) {
-            total = total + colis.get(i).getPoids();
-        }
-        return total;
-    }
-
-    public double getVolumeTotal() {
-        double total = 0;
-        for (Colis c : colis) {
-            total = total + c.getVolume();
-        }
-        return total;
-    }
-
-    public double getValeurTotale() {
-        double total = 0;
-        for (int i = 0; i < colis.size(); i++) {
-            total = total + colis.get(i).getValeurDeclaree();
-        }
-        return total;
-    }
 
     public String getId() {
         return id;
@@ -174,9 +150,5 @@ public class Expedition {
 
     public void setFraisAnnulation(double fraisAnnulation) {
         this.fraisAnnulation = fraisAnnulation;
-    }
-
-    public List<String> getHistorique() {
-        return historique;
     }
 }

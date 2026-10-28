@@ -20,6 +20,7 @@ public class TableDistances {
         table.ajouter("Le Havre", "New York", 5850);
         table.ajouter("Marseille", "Alger", 760);
         table.ajouter("Paris", "New York", 5840);
+        table.ajouter("Paris", "Le Havre", 365);
         return table;
     }
 

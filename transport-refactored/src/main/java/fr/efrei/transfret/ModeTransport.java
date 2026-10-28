@@ -9,7 +9,8 @@ public enum ModeTransport {
     ROUTE(new TarifRoute(), new DelaiRoute(), true,     true,     true),
     RAIL(new TarifRail(), new DelaiRail(), true, false, true),
     MER(new TarifMer(), new DelaiMer(), true, true, false),
-    AIR(new TarifAir(), new DelaiAir(), false, false, true);
+    AIR(new TarifAir(), new DelaiAir(), false, false, true),
+    FLUVIAL(new TarifFluvial(), new DelaiFluvial(), true, false, false);
 
     private final TarifTransport tarif;
     private final DelaiTransport delai;

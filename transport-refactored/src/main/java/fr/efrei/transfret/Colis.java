@@ -1,14 +1,17 @@
 package fr.efrei.transfret;
 
+/** Un colis : poids en kg, dimensions en cm, valeur déclarée en euros. */
 public class Colis {
 
-    private String description;
-    private double poids;        // en kg
-    private double longueur;     // en cm
-    private double largeur;      // en cm
-    private double hauteur;      // en cm
-    private TypeMarchandise type;
-    private double valeurDeclaree;
+    private static final double CM3_PAR_M3 = 1_000_000;
+
+    private final String description;
+    private final double poids;
+    private final double longueur;
+    private final double largeur;
+    private final double hauteur;
+    private final TypeMarchandise type;
+    private final double valeurDeclaree;
 
     public Colis(String description, double poids, double longueur, double largeur, double hauteur, TypeMarchandise type, double valeurDeclaree) {
         this.description = description;
@@ -20,9 +23,7 @@ public class Colis {
         this.valeurDeclaree = valeurDeclaree;
     }
 
-    private static final double CM3_PAR_M3 = 1_000_000;
-
-    // volume en m3
+    /** Volume en m3. */
     public double getVolume() {
         return (longueur * largeur * hauteur) / CM3_PAR_M3;
     }
@@ -35,55 +36,27 @@ public class Colis {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public double getPoids() {
         return poids;
-    }
-
-    public void setPoids(double poids) {
-        this.poids = poids;
     }
 
     public double getLongueur() {
         return longueur;
     }
 
-    public void setLongueur(double longueur) {
-        this.longueur = longueur;
-    }
-
     public double getLargeur() {
         return largeur;
-    }
-
-    public void setLargeur(double largeur) {
-        this.largeur = largeur;
     }
 
     public double getHauteur() {
         return hauteur;
     }
 
-    public void setHauteur(double hauteur) {
-        this.hauteur = hauteur;
-    }
-
     public TypeMarchandise getType() {
         return type;
     }
 
-    public void setType(TypeMarchandise type) {
-        this.type = type;
-    }
-
     public double getValeurDeclaree() {
         return valeurDeclaree;
-    }
-
-    public void setValeurDeclaree(double valeurDeclaree) {
-        this.valeurDeclaree = valeurDeclaree;
     }
 }
