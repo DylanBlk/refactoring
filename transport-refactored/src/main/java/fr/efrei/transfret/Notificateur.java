@@ -1,12 +1,21 @@
 package fr.efrei.transfret;
 
-/** Prévient le client : un email, et un SMS en plus pour les clients PREMIUM. */
+import java.util.List;
+
+/** Prévient le client sur chacun des canaux qui le concernent. */
 public class Notificateur {
 
-    public void notifier(Client client, String sujet, String corps, String sms) {
-        EmailService.envoyer(client.getEmail(), sujet, corps);
-        if (client.getType() == TypeClient.PREMIUM) {
-            new SmsService().envoyerSms(client.getTelephone(), sms);
+    private final List<CanalNotification> canaux;
+
+    public Notificateur(List<CanalNotification> canaux) {
+        this.canaux = canaux;
+    }
+
+    public void notifier(Client client, Message message) {
+        for (CanalNotification canal : canaux) {
+            if (canal.concerne(client)) {
+                canal.envoyer(client, message);
+            }
         }
     }
 }
