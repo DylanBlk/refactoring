@@ -3,17 +3,48 @@ package fr.efrei.transfret;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Vehicule implements IVehicule {
+/**
+ * Un véhicule de la flotte. Chaque véhicule répond lui-même à la question
+ * « puis-je prendre en charge ces colis, pour ce mode ? » et sait comment partir.
+ */
+public abstract class Vehicule {
 
-    protected String immatriculation;
-    protected double capaciteMax;
-    protected double chargeActuelle;
-    protected boolean disponible = true;
-    protected List<Colis> chargement = new ArrayList<Colis>();
+    protected final String immatriculation;
+    private final ModeTransport mode;
+    private final double capaciteMax;
+    private double chargeActuelle;
+    private boolean disponible = true;
+    protected final List<Colis> chargement = new ArrayList<>();
 
-    public Vehicule(String immatriculation, double capaciteMax) {
+    protected Vehicule(String immatriculation, ModeTransport mode, double capaciteMax) {
         this.immatriculation = immatriculation;
+        this.mode = mode;
         this.capaciteMax = capaciteMax;
+    }
+
+    /** Vrai si le véhicule est libre, roule dans ce mode, a la place et accepte ce type de colis. */
+    public boolean peutPrendreEnCharge(ModeTransport modeDemande, List<Colis> colis) {
+        return disponible
+                && mode == modeDemande
+                && capaciteMax - chargeActuelle >= poids(colis)
+                && accepteColis(colis);
+    }
+
+    /** Chaque sorte de véhicule dit quels colis elle accepte. */
+    protected abstract boolean accepteColis(List<Colis> colis);
+
+    /** Chaque sorte de véhicule part à sa façon (rouler, naviguer, voler…). */
+    public abstract void partir(int distanceKm);
+
+    public void charger(Colis colis) {
+        chargement.add(colis);
+        chargeActuelle = chargeActuelle + colis.getPoids();
+    }
+
+    public void decharger(Colis colis) {
+        if (chargement.remove(colis)) {
+            chargeActuelle = chargeActuelle - colis.getPoids();
+        }
     }
 
     public String getImmatriculation() {
@@ -36,22 +67,20 @@ public abstract class Vehicule implements IVehicule {
         this.disponible = disponible;
     }
 
-    public void charger(Colis colis) {
-        if (chargeActuelle + colis.getPoids() > capaciteMax) {
-            System.out.println("ERREUR : capacité dépassée pour " + immatriculation);
-            return;
+    protected static boolean contient(List<Colis> colis, TypeMarchandise type) {
+        for (Colis c : colis) {
+            if (c.getType() == type) {
+                return true;
+            }
         }
-        chargement.add(colis);
-        chargeActuelle = chargeActuelle + colis.getPoids();
+        return false;
     }
 
-    public void decharger(Colis colis) {
-        if (chargement.remove(colis)) {
-            chargeActuelle = chargeActuelle - colis.getPoids();
+    private static double poids(List<Colis> colis) {
+        double total = 0;
+        for (Colis c : colis) {
+            total = total + c.getPoids();
         }
-    }
-
-    public void faireLePlein() {
-        System.out.println("Plein effectué pour " + immatriculation);
+        return total;
     }
 }

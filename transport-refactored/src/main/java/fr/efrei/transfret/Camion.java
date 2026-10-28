@@ -1,31 +1,33 @@
 package fr.efrei.transfret;
 
-public class Camion extends Vehicule {
+import java.util.List;
 
-    protected boolean adr; // certification matières dangereuses
+/** Camion : transporte tout sauf le réfrigéré, et le dangereux seulement s'il est certifié ADR. */
+public class Camion extends Vehicule implements Ravitaillable {
 
-    public Camion(String immatriculation, double capaciteMax, boolean adr) {
-        super(immatriculation, capaciteMax);
-        this.adr = adr;
+    private final boolean certifieAdr;
+
+    public Camion(String immatriculation, double capaciteMax, boolean certifieAdr) {
+        super(immatriculation, ModeTransport.ROUTE, capaciteMax);
+        this.certifieAdr = certifieAdr;
     }
 
-    public void rouler(int km) {
-        System.out.println("Le camion " + immatriculation + " roule sur " + km + " km");
+    @Override
+    protected boolean accepteColis(List<Colis> colis) {
+        if (contient(colis, TypeMarchandise.REFRIGERE)) {
+            return false;
+        }
+        return certifieAdr || !contient(colis, TypeMarchandise.DANGEREUX);
     }
 
-    public void naviguer(int milesNautiques) {
-        throw new UnsupportedOperationException("Un camion ne navigue pas");
+    @Override
+    public void faireLePlein() {
+        System.out.println("Plein effectué pour " + immatriculation);
     }
 
-    public void voler(int altitude) {
-        throw new UnsupportedOperationException("Un camion ne vole pas");
-    }
-
-    public void activerRefrigeration(double temperature) {
-        throw new UnsupportedOperationException("Ce camion n'est pas frigorifique");
-    }
-
-    public boolean peutTransporterMatieresDangereuses() {
-        return adr;
+    @Override
+    public void partir(int distanceKm) {
+        faireLePlein();
+        System.out.println("Le camion " + immatriculation + " roule sur " + distanceKm + " km");
     }
 }

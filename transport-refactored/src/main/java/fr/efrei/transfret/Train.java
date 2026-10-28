@@ -1,33 +1,21 @@
 package fr.efrei.transfret;
 
+import java.util.List;
+
+/** Train électrique : pas de plein à faire, pas de wagons frigorifiques. */
 public class Train extends Vehicule {
 
     public Train(String immatriculation, double capaciteMax) {
-        super(immatriculation, capaciteMax);
+        super(immatriculation, ModeTransport.RAIL, capaciteMax);
     }
 
-    public void rouler(int km) {
-        System.out.println("Le train " + immatriculation + " circule sur " + km + " km de voies ferrées");
-    }
-
-    public void naviguer(int milesNautiques) {
-        throw new UnsupportedOperationException("Un train ne navigue pas");
-    }
-
-    public void voler(int altitude) {
-        throw new UnsupportedOperationException("Un train ne vole pas");
-    }
-
-    public void activerRefrigeration(double temperature) {
-        throw new UnsupportedOperationException("Pas de wagons frigorifiques");
-    }
-
-    public boolean peutTransporterMatieresDangereuses() {
+    @Override
+    protected boolean accepteColis(List<Colis> colis) {
         return true;
     }
 
     @Override
-    public void faireLePlein() {
-        throw new UnsupportedOperationException("Un train électrique ne fait pas le plein");
+    public void partir(int distanceKm) {
+        System.out.println("Le train " + immatriculation + " circule sur " + distanceKm + " km de voies ferrées");
     }
 }
